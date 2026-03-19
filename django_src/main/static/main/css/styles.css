@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-image: url('../images/DreamSky.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #061c3d;
+    background-attachment: fixed;
+    color: #b3dbea;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 0 0 0;
+}
+
+
+header {
+    background-color: #281c4e;
+    color: #fdd1e9; /* Website title */
+    text-align: center;
+    padding: 20px;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    justify-content: center;
+    gap: 20px;
+    display: flex;
+}
+
+header nav ul li a {
+    color: #fdd1e9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+header h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    padding-bottom: 10px;
+}
+
+section {
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+.Main-Section {
+    width: 80%;
+    background-color: #281c4e; 
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    max-width: 600px;
+    color: #fdd1e9; /* Sections title */
+    border: 2px solid #e297d2;
+}
+
+.main-section-info {
+    text-align: center;
+}
+
+
+
+input, select {
+    background-color: #eaeab3;
+    color: #0c3776;
+    border: 2px solid #0a2f65;
+    border-radius: 7px;
+    text-align: center;
+}
+
+
+input {
+    height: 17px;
+}
+
+select {
+    height: 25px;
+}
+
+
+button {
+    background-color: #0d3e86;
+    color: #d3d3a4;
+    border: 1px solid #d3d3a4;
+    border-radius: 7px;
+    text-align: center;
+    width: 110px;
+    height: 30px;
+}
+
+button:hover {
+    border: 2px solid #d3d3a4;
+}
+
+input::placeholder {
+    color: #0a2e659c;
+}
