@@ -194,3 +194,14 @@ button {
 button:hover {
     border: 2px solid #493786;
 }
+
+
+.account-container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+
+    border: 2px solid #e297d2;
+    border-radius: 10px;
+    text-align: center;
+}

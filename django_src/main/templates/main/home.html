@@ -13,9 +13,8 @@
         <h1 class="title">Lucid Garden</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'account' %}">Account</a></li>
             </ul>
         </nav>
     </header>
@@ -37,7 +36,7 @@
             <div id="alarmCreation" class="overlay">
                 <div class="popup">
                     <h2>Create Alarm</h2>
-                    
+
                     <label>Time:</label>
                     <input type="time">
 
