@@ -13,23 +13,54 @@
         <h1 class="title">Lucid Garden</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Some other link</a></li>
-                <li><a href="#">Link to something</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'account' %}">Account</a></li>
             </ul>
         </nav>
     </header>
 
     
 
-    <section id="intro" class="Main-Section">
-        <h2 class="main-section-info">Uhhh idk words here</h2>
-        <div id="main-results">
+    <div class="main-container">
+        <div class="sidebar-container">
+            <h2>Alarms</h2>
+            <ul class="alarms-list">
+                <label class="lucid-checkbox">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    <span class="checkbox-text">Alarm 1</span>
+                </label>
+            </ul>
+            <button id="createAlarmBtn"><b>Create Alarm</b></button>
 
+            <div id="alarmCreation" class="overlay">
+                <div class="popup">
+                    <h2>Create Alarm</h2>
+
+                    <label>Time:</label>
+                    <input type="time">
+
+                    <br><br>
+
+                    <button id="saveAlarm">Save</button>
+                    <button id="closeModal">Cancel</button>
+                </div>
+            </div>
         </div>
-    </section>
+
+        <div class="content-container">
+            <h2 class="content-info">Words here</h2>
+            <div id="main-results">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="attribution">
+        Attribution: <a href="https://www.vecteezy.com/free-vector/default-user">Default User Vectors by Vecteezy</a> and <a href="https://www.vecteezy.com/free-vector/profile">Profile Vectors by Vecteezy</a>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    <script src="script.js"></script>
+    <script src="static/main/js/script.js"></script>
 </body>
 </html>
