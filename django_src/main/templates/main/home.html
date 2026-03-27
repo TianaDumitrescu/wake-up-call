@@ -24,27 +24,35 @@
     <div class="main-container">
         <div class="sidebar-container">
             <h2>Alarms</h2>
-            <ul class="alarms-list">
-                <label class="lucid-checkbox">
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                    <span class="checkbox-text">Alarm 1</span>
-                </label>
-            </ul>
+            <div class="alarms-list">
+                {% if alarm %}
+                <form method="POST" action="{% url 'delete_alarm' %}">
+                    {% csrf_token %}
+                    <label class="lucid-checkbox">
+                        <!-- Checkbox for deleting the alarm, and submitting the POST form -->
+                        <input type="checkbox" onchange="this.form.submit()">
+                        <span class="checkmark"></span>
+                        <!-- If the alarm is due, add the "due" class to the text, which for now makes it just the color red -->
+                        <span class="checkbox-text {% if is_due %}due{% endif %}">{{ alarm.time }}</span>
+                    </label>
+                </form>
+                {% endif %}
+            </div>
             <button id="createAlarmBtn"><b>Create Alarm</b></button>
 
             <div id="alarmCreation" class="overlay">
-                <div class="popup">
+                <form method="POST" class="popup">
+                    {% csrf_token %}
                     <h2>Create Alarm</h2>
 
                     <label>Time:</label>
-                    <input type="time">
+                    <input type="time" name="time">
 
                     <br><br>
 
-                    <button id="saveAlarm">Save</button>
+                    <button id="saveAlarm" type="submit">Save</button>
                     <button id="closeModal">Cancel</button>
-                </div>
+                </form>
             </div>
         </div>
 

@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 # Create your models here.
 class Alarm(models.Model):
     time = models.TimeField() # The time the alarm is set for
+    wake_up_time = models.DateTimeField(null=True, blank=True)
     completed = models.BooleanField(default=False) # Whether the alarm has been marked as completed (serves as a backup for if the alarm is not deleted properly)
 
     def __str__(self):
