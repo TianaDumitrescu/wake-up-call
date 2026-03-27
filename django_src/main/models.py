@@ -27,3 +27,14 @@ class Alarm(models.Model):
     def is_due(self):
         next_due = self.get_next_due()
         return datetime.now() >= next_due
+
+    def update_wake_up(self):
+        self.wake_up_time = datetime.now()
+
+    def met_alarm(self):
+        if self.wake_up_time == None:
+            return False
+        if self.wake_up_time >= self.get_next_due():
+            return True
+        else:
+            return False
