@@ -4,19 +4,19 @@ from datetime import datetime, timedelta
 
 # Create your models here.
 class Alarm(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    time = models.TimeField()
+    alarm_time = models.TimeField()
+    wake_up_time = models.DateTimeField(null=True, blank=True)
     label = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return f"{self.label} at {self.time}"
+        return f"{self.label} at {self.alarm_time}"
     
-    def get_next_due(alarm):
+    def get_next_due(self):
         now = datetime.now()
 
         due_today = now.replace(
-            hour=alarm.time.hour,
-            minute=alarm.time.minute,
+            hour=self.alarm_time.hour,
+            minute=self.alarm_time.minute,
             second=0,
             microsecond=0
         )
@@ -28,3 +28,14 @@ class Alarm(models.Model):
     def is_due(self):
         next_due = self.get_next_due()
         return datetime.now() >= next_due
+
+    def update_wake_up(self):
+        self.wake_up_time = datetime.now()
+
+    def met_alarm(self):
+        if self.wake_up_time == None:
+            return False
+        if self.wake_up_time >= self.get_next_due():
+            return True
+        else:
+            return False
