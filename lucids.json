@@ -1,0 +1,180 @@
+{
+    "lucids": [
+        {
+            "id": 1,
+            "name": "Flickerfly",
+            "type": ["Fire", "Bug"],
+            "description": "It carries a small flame on its back that's hot to the touch and lights up the night sky.",
+            "spawn_rate": 0.11,
+            "spawn_level_offset": 5,
+            "evolution": {
+                "prev": null, "next": "Knightilite", "level": 10
+            }
+        },
+        {
+            "id": 2,
+            "name": "Knightilite",
+            "type": ["Fire", "Light"],
+            "description": "The light from its shield indicates Knightilite's life force. If it is healthy, the light glows vibrantly.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Flickerfly", "next": "Sirlampsalot", "level": 20
+            }
+        },
+        {
+            "id": 3,
+            "name": "Sirlampsalot",
+            "type": ["Fire", "Light"],
+            "description": "The bubbles contained in both ends of its lance can reach up to 1,000 degrees Fahrenheit.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Knightilite", "next": null, "level": null
+            }
+        },
+        {
+            "id": 4,
+            "name": "Poppup",
+            "type": ["Water"],
+            "description": "It requires a lot of energy for Poppup to stand on its own. It sometimes falls over if it gets too drowsy.",
+            "spawn_rate": 0.11,
+            "spawn_level_offset": 5,
+            "evolution": {
+                "prev": null, "next": "Capyblo", "level": 10
+            }
+        },
+        {
+            "id": 5,
+            "name": "Capyblo",
+            "type": ["Water"],
+            "description": "If defeated in battle, only then does the bubble blown from its nose burst. This Lucid always appears to be in a state of hibernation.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Poppup", "next": "Bubbelara", "level": 20
+            }
+        },
+        {
+            "id": 6,
+            "name": "Bubbelara",
+            "type": ["Water", "ESP"],
+            "description": "Bubbelara controls the bubbles that surround it purely with its mind. There is no purpose for it to move its own body.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Capyblo", "next": null, "level": null
+            }
+        },
+        {
+            "id": 7,
+            "name": "Coocoo",
+            "type": ["Wood", "Bird"],
+            "description": "Despite its appearance, Coocoo is entirely made of wood. Each of its feathers is thinner than paper.",
+            "spawn_rate": 0.11,
+            "spawn_level_offset": 5,
+            "evolution": {
+                "prev": null, "next": "Perchipek", "level": 10
+            }
+        },
+        {
+            "id": 8,
+            "name": "Perchipek",
+            "type": ["Wood", "Bird"],
+            "description": "The hourglass it grips onto is filled with sawdust. If some of it trickles out, Perchipek whittles away at its fallen feathers to refill it.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Coocoo", "next": "Tikitoki", "level": 20
+            }
+        },
+        {
+            "id": 9,
+            "name": "Tikitoki",
+            "type": ["Wood", "Bird"],
+            "description": "Tikitoki's talons are strong enough to carry its clock with ease through the sky. Despite the clock's intricate appearance, it's only right twice a day.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Perchipek", "next": null, "level": null
+            }
+        },
+        {
+            "id": 10,
+            "name": "Fleezy",
+            "type": ["Neutral"],
+            "description": "Fleezy often help clean each other to keep their wool super soft. Any Lucid that stays in contact with its wool for too long falls fast asleep.",
+            "spawn_rate": 0.22,
+            "spawn_level_offset": 0,
+            "evolution": {
+                "prev": null, "next": "Woolawake", "level": 15
+            }
+        },
+        {
+            "id": 11,
+            "name": "Woolawake",
+            "type": ["Neutral", "Light"],
+            "description": "The nightcaps on its head hide powerful horns that can deal massive damage without fracturing.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Fleezy", "next": null, "level": null
+            }
+        },
+        {
+            "id": 12,
+            "name": "Kreepi",
+            "type": ["Cyber", "Dark"],
+            "description": "A Lucid that was formed by the souls of those who dedicated their lives to computer programming. It takes a virtual form while bound to a computer.",
+            "spawn_rate": 0.22,
+            "spawn_level_offset": 0,
+            "evolution": {
+                "prev": null, "next": "Krawli", "level": 15
+            }
+        },
+        {
+            "id": 13,
+            "name": "Krawli",
+            "type": ["Cyber", "Bug"],
+            "description": "Each of its legs is comprised entirely of binary code. The 0's and 1's rapidly change as it moves.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Kreepi", "next": null, "level": null
+            }
+        },
+        {
+            "id": 14,
+            "name": "Cawlow",
+            "type": ["Bird", "Dark"],
+            "description": "Cawlow's wings are too small for it to fly. It relies on its large beak to scavenge for food on the ground.",
+            "spawn_rate": 0.22,
+            "spawn_level_offset": 0,
+            "evolution": {
+                "prev": null, "next": "Corviclipse", "level": 15
+            }
+        },
+        {
+            "id": 15,
+            "name": "Corviclipse",
+            "type": ["Bird", "Dark"],
+            "description": "It can spread its wings up to 300 degrees, almost forming a perfect circle. It blocks out beams of light to hide in the shadows.",
+            "spawn_rate": null,
+            "spawn_level_offset": null,
+            "evolution": {
+                "prev": "Cawlow", "next": null, "level": null
+            }
+        },
+        {
+            "id": 16,
+            "name": "Lockdream",
+            "type": ["ESP", "Cyber"],
+            "description": "Originally created to trap humans in a state of REM sleep, Lockdream now operates of its own free will. It does not hold back in battle.",
+            "spawn_rate": 0.01,
+            "spawn_level_offset": 10,
+            "evolution": {
+                "prev": null, "next": null, "level": null
+            }
+        }
+    ]
+}
