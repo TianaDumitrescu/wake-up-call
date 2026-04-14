@@ -33,7 +33,7 @@
                         <input type="checkbox" onchange="this.form.submit()">
                         <span class="checkmark"></span>
                         <!-- If the alarm is due, add the "due" class to the text, which for now makes it just the color red -->
-                        <span class="checkbox-text {% if is_due %}due{% endif %}">{{ alarm.time }}</span>
+                        <span class="checkbox-text {% if is_due %}due{% endif %}">{{ alarm.time|time:"h:i A" }}</span>
                     </label>
                 </form>
                 {% endif %}
@@ -41,7 +41,7 @@
             <button id="createAlarmBtn"><b>Create Alarm</b></button>
 
             <div id="alarmCreation" class="overlay">
-                <form method="POST" class="popup">
+                <form method="POST" class="popup" action="{% url 'create_alarm' %}">
                     {% csrf_token %}
                     <h2>Create Alarm</h2>
 
@@ -50,8 +50,8 @@
 
                     <br><br>
 
-                    <button id="saveAlarm" type="submit">Save</button>
-                    <button id="closeModal">Cancel</button>
+                    <button id="saveAlarm" type="submit" >Save</button>
+                    <button type="button" id="closeModal">Cancel</button>
                 </form>
             </div>
         </div>
