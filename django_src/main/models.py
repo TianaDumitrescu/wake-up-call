@@ -3,37 +3,45 @@ import math
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from datetime import datetime, timedelta
+from django.utils import timezone
 from parser import LUCIDS
 from parser import load_lucids
 
 # Alarm Clock Model
 class Alarm(models.Model):
-    alarm_time = models.TimeField()
-    wake_up_time = models.DateTimeField(null=True, blank=True)
-    label = models.CharField(max_length=100, blank=True)
+    time = models.DateTimeField() # The time the alarm is set for
+    completed = models.BooleanField(default=False) # Whether the alarm has been marked as completed (serves as a backup for if the alarm is not deleted properly)
+    due_determiner = models.BooleanField(default=False) # This field is used to determine if the alarm is due or not. It is necessary because if the user sets an alarm for a time that has already passed, we want the alarm to be due immediately instead of waiting until the next day. This field is set to True when the alarm is created or updated, and then set to False when the alarm is marked as completed or deleted. This way, if the user sets an alarm for a time that has already passed, the alarm will be due immediately instead of waiting until the next day.
 
     def __str__(self):
-        return f"{self.label} at {self.alarm_time}"
+        return f"Alarm at {self.time}"
     
     def get_next_due(self):
         now = datetime.now()
 
-        due_today = now.replace(
-            hour=self.alarm_time.hour,
-            minute=self.alarm_time.minute,
-            second=0,
-            microsecond=0
+        # Setting the "next due" time to be similar to "now" so it can be compared to "now" to determine if the alarm is due or not.
+        next_due = now.replace(
+            hour= self.time.hour,
+            minute= self.time.minute,
+            second= 0,
+            microsecond= 0
         )
 
-        if due_today > now:
-            return due_today
-        return due_today + timedelta(days=1)
+        if next_due < now and self.due_determiner == False:
+            self.due_determiner = True
+            self.save()
+            next_due += timedelta(days=1)
+
+        return next_due
     
+    # Function to see if the user's set alarm time is due or not
     def is_due(self):
-        next_due = self.get_next_due()
-        return datetime.now() >= next_due
+        print(timezone.now())
+        print(self.time)
+        if not self.time:
+            return False
+        return timezone.now() >= self.time
 
     def update_wake_up(self):
         self.wake_up_time = datetime.now()
@@ -52,18 +60,19 @@ class Lucid(models.Model):
     identification = models.IntegerField
     name = models.CharField(max_length = 64)
     # Types represents what "species" is inherited by the Lucids (i.e. )
-    types = ArrayField(models.CharField(max_length = 64), size = 5)
+    #types = ArrayField(models.CharField(max_length = 64), size = 5)
+    types = models.JSONField(default=list)
     description = models.CharField(max_length = 1024)
     spawn_rate = models.FloatField
     spawn_level_offset = models.IntegerField
     # Evolution represents the current level of the Lucid in it's "progression path"
     # Index one is the previous, index 2 is the next
-    evolution = ArrayField(models.CharField(max_length = 64), size = 2)
-   
+    #evolution = ArrayField(models.CharField(max_length = 64), size = 2)
+    evolution = models.JSONField(default=list)
     def __init__(self, nickname, identification):
         self.nickname = nickname
         Lucid
-
+   
     def __str__(self):
         return f"This is your {self.name} Lucid! Their name is {self.nickname}."
 
@@ -88,18 +97,16 @@ class UserDatabase(models.Model):
     # The current losing streak the use rhas
     currentLoseStreak = models.IntegerField(default = 0);
     # The lucids array essentially holds all the lucids
-    # The number represents the Lucid's nickname (how they're identified in the program)
-    lucids = ArrayField(models.CharField(), size = 64)
+    # The number represents the Lucid ID
+    #lucids = ArrayField(models.IntegerField(), size = 25)
+    lucids = models.JSONField(default=list)
     # Represents the actual alarm clock model
     alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
 
     # String representing the user
     def __str__(self):
-        return f"Welcome {self.user.name}!"
+        return f"Welcome {self.user.username}!"
 
-    # Initialization for the model, occurs when a user is initially set
-    def __init__(self, user):
-        self.user = user
 
     # Getter for the user
     def get_user(self):
