@@ -10,9 +10,10 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    # For the home page, we want to show the user their current alarm (if they have one) and whether it is due or not.
-    alarm = Alarm.objects.first()
     user = request.user
+
+    # For the home page, we want to show the user their current alarm (if they have one) and whether it is due or not.
+    alarm = Alarm.objects.filter(user=user).first()
 
     # If there is an alarm, we check if it is due or not and pass that information to the template to be rendered.
     is_due = False
@@ -27,7 +28,7 @@ def home(request):
 
 def delete_alarm(request):
     # User should only have one alarm, so we can just get the first one and delete it.
-    alarm = Alarm.objects.first()
+    alarm = Alarm.objects.filter(user=request.user).first()
 
     # If there is an alarm, delete it. If there isn't, do nothing and just redirect to the home page.
     if alarm:
@@ -51,12 +52,10 @@ def create_alarm(request):
     if alarm_datetime <= now:
         alarm_datetime += timezone.timedelta(days=1)
 
-    alarm = Alarm.objects.first()
+    alarm = Alarm.objects.filter(user=request.user).first()
 
-    # If there is no existing alarm, create a new one. 
-    # If there is an existing alarm, update it with the new time and mark it as not completed.
     if not alarm:
-        alarm = Alarm(time=timezone.now())
+        alarm = Alarm(user=request.user, time=alarm_datetime)
 
     alarm.time = alarm_datetime
     alarm.completed = False

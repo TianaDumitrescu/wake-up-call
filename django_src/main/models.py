@@ -9,6 +9,7 @@ from django.utils import timezone
 
 # Alarm Clock Model
 class Alarm(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE) # Each user should only have one alarm, so we use a OneToOneField to link the alarm to the user
     time = models.DateTimeField() # The time the alarm is set for
     completed = models.BooleanField(default=False) # Whether the alarm has been marked as completed (serves as a backup for if the alarm is not deleted properly)
     due_determiner = models.BooleanField(default=False) # This field is used to determine if the alarm is due or not. It is necessary because if the user sets an alarm for a time that has already passed, we want the alarm to be due immediately instead of waiting until the next day. This field is set to True when the alarm is created or updated, and then set to False when the alarm is marked as completed or deleted. This way, if the user sets an alarm for a time that has already passed, the alarm will be due immediately instead of waiting until the next day.
@@ -55,14 +56,14 @@ class Alarm(models.Model):
 
 # Lucid Model - Essentially represents
 class Lucid(models.Model):
-    identification = models.IntegerField
+    identification = models.IntegerField()
     name = models.CharField(max_length = 64)
     # Types represents what "species" is inherited by the Lucids (i.e. )
     #types = ArrayField(models.CharField(max_length = 64), size = 5)
     types = models.JSONField(default=list)
     description = models.CharField(max_length = 1024)
-    spawn_rate = models.FloatField
-    spawn_level_offset = models.IntegerField
+    spawn_rate = models.FloatField()
+    spawn_level_offset = models.IntegerField()
     # Evolution represents the current level of the Lucid in it's "progression path"
     # Index one is the previous, index 2 is the next
     #evolution = ArrayField(models.CharField(max_length = 64), size = 2)
@@ -97,8 +98,9 @@ class UserDatabase(models.Model):
     # The number represents the Lucid ID
     #lucids = ArrayField(models.IntegerField(), size = 25)
     lucids = models.JSONField(default=list)
-    # Represents the actual alarm clock model
-    alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
+    
+    # # Represents the actual alarm clock model
+    # alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
 
     # String representing the user
     def __str__(self):
@@ -131,10 +133,10 @@ class UserDatabase(models.Model):
             self.totalPoints -= spending
             return self.totalPoints
             
-    # Setter for the alarm
-    def set_alarm(self, alarm):
-        self.alarm = alarm
+    # # Setter for the alarm
+    # def set_alarm(self, alarm):
+    #     self.alarm = alarm
 
-    # Getter for the alarm
-    def get_alarm(self):
-        return self.alarm
+    # # Getter for the alarm
+    # def get_alarm(self):
+    #     return self.alarm
