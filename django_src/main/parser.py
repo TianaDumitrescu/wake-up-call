@@ -3,7 +3,7 @@ from os import name
 
 LUCIDS = {};
 
-class Lucid:
+class LucidSpecies:
     identification = 0
     name = ""
     types = {}
@@ -21,22 +21,22 @@ class Lucid:
         self.spawn_level_offset = spawn_level_offset
         self.evolution = evolution
 
-    def getName(self):
+    def get_name(self):
         return self.name
     
-    def getTypes(self):
+    def get_types(self):
         return self.types
 
-    def getDescription(self):
+    def get_description(self):
         return self.description
 
-    def getSpawnRate(self):
+    def get_spawn_rate(self):
         return self.spawn_rate
 
-    def getSpawnLevelOffset(self):
+    def get_spawn_level_offset(self):
         return self.spawn_level_offset
 
-    def getEvolution(self):
+    def get_evolution(self):
         return self.evolution
 
 def load_lucids():
@@ -54,14 +54,4 @@ def load_lucids():
         spawn_level_offset = lucid["spawn_level_offset"]
         evolution = lucid["evolution"]
 
-        LUCIDS[i] = Lucid(identification, name, types, description, spawn_rate, spawn_level_offset, evolution)
-
-load_lucids()
-
-def create_lucid(unqiue_id, nickname, species_id):
-    species_base = LUCIDS.get(species_id)
-
-    if species_base is None:
-        raise ValueError("This species hasn't been initialized.")
-
-    return Lucid.objects.create(unique_id = unique_id, nickname = nickname, species_id=species_id)
+        LUCIDS[identification] = LucidSpecies(identification, name, types, description, spawn_rate, spawn_level_offset, evolution)
