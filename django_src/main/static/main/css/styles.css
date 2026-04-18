@@ -89,7 +89,6 @@ header h1 {
 
 /* List of alarms in the sidebar */
 .alarms-list {
-    list-style-type: none; /* Remove bullet points */
     padding-left: 8px;
 }
 
@@ -153,6 +152,7 @@ input[type="checkbox"], label {
 .lucid-checkbox {
     display: flex;
     align-items: center; 
+    padding-bottom: 15px;
 }
 
 /* Hide default checkbox made by html */
@@ -231,4 +231,8 @@ button:hover {
     border-radius: 50%;
     object-fit: cover;    /* prevents image stretching */
     border: 2px solid #e297d2;
+}
+
+.due {
+    color: red;
 }
