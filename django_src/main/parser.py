@@ -1,4 +1,5 @@
 import json
+from os import name
 
 LUCIDS = {};
 
@@ -6,7 +7,7 @@ class Lucid:
     identification = 0
     name = ""
     types = {}
-    descriptions = ""
+    description = ""
     spawn_rate = 0
     spawn_level_offset = 0
     evolution = {}
@@ -20,6 +21,23 @@ class Lucid:
         self.spawn_level_offset = spawn_level_offset
         self.evolution = evolution
 
+    def getName(self):
+        return self.name
+    
+    def getTypes(self):
+        return self.types
+
+    def getDescription(self):
+        return self.description
+
+    def getSpawnRate(self):
+        return self.spawn_rate
+
+    def getSpawnLevelOffset(self):
+        return self.spawn_level_offset
+
+    def getEvolution(self):
+        return self.evolution
 
 def load_lucids():
     with open("../Lucids.json", "r") as file:
@@ -38,4 +56,12 @@ def load_lucids():
 
         LUCIDS[i] = Lucid(identification, name, types, description, spawn_rate, spawn_level_offset, evolution)
 
-load_lucids
+load_lucids()
+
+def create_lucid(unqiue_id, nickname, species_id):
+    species_base = LUCIDS.get(species_id)
+
+    if species_base is None:
+        raise ValueError("This species hasn't been initialized.")
+
+    return Lucid.objects.create(unique_id = unique_id, nickname = nickname, species_id=species_id)

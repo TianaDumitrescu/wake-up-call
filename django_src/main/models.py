@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
 from parser import LUCIDS
-from parser import load_lucids
+from parser import Lucid
 
 # Alarm Clock Model
 class Alarm(models.Model):
@@ -56,35 +56,61 @@ class Alarm(models.Model):
 
 # Lucid Model - Essentially represents
 class Lucid(models.Model):
+    unique_id = models.IntegerField()
     nickname = models.CharField(max_length = 64)
-    identification = models.IntegerField
-    name = models.CharField(max_length = 64)
+    species_id = models.IntegerField()
+    #name = models.CharField(max_length = 64)
     # Types represents what "species" is inherited by the Lucids (i.e. )
     #types = ArrayField(models.CharField(max_length = 64), size = 5)
-    types = models.JSONField(default=list)
-    description = models.CharField(max_length = 1024)
-    spawn_rate = models.FloatField
-    spawn_level_offset = models.IntegerField
+    #types = models.JSONField(default=list)
+    #description = models.CharField(max_length = 1024)
+    #spawn_rate = models.FloatField()
+    #spawn_level_offset = models.IntegerField()
     # Evolution represents the current level of the Lucid in it's "progression path"
     # Index one is the previous, index 2 is the next
     #evolution = ArrayField(models.CharField(max_length = 64), size = 2)
-    evolution = models.JSONField(default=list)
-    def __init__(self, nickname, identification):
-        self.nickname = nickname
-        Lucid
+    #evolution = models.JSONField(default=list)
    
     def __str__(self):
         return f"This is your {self.name} Lucid! Their name is {self.nickname}."
 
     def stats(self):
-        return f"Name: {self.name}\n Description: {self.description}"
+        return f"Name: {self.get_species_name()}\n Description: {self.description}"
 
-    #def get_id():
-      #  return self.identification
+    def get_unique_id(self):
+        return self.unique_id
 
-    #def get_name():
-   #     return 
+    def get_nickname(self):
+        return self.nickname
 
+    def set_nickname(self, nickname):
+        self.nickname = nickname
+    
+    def get_species_name(self):
+       lucid_name = LUCIDS[self.species_id].getName()
+       return lucid_name
+
+    # Types represents what "species" is inherited by the Lucids (i.e. )
+    def get_types(self):
+       types = LUCIDS.get(self.species_id).getTypes()
+       return types
+
+    def get_description(self):
+       description = LUCIDS.get(self.species_id).getDescription()
+       return description
+
+    def get_spawn_rate(self):
+       spawn_rate = LUCIDS.get(self.species_id).getSpawnRate()
+       return spawn_rate
+       
+    def get_spawn_level_offset(self):
+        spawn_level_offset = LUCIDS.get(self.species_id).getSpawnLevelOffset()
+        return spawn_level_offset
+
+    # Evolution represents the current level of the Lucid in it's "progression path"
+    def get_evolution(self):
+        evolution = LUCIDS.get(self.species_id).getEvolution()
+        return evolution
 
 # User Database Model - Each user will officially have one
 class UserDatabase(models.Model):
