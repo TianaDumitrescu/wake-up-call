@@ -1,11 +1,12 @@
 import json
 import math
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from datetime import datetime, timedelta
-
-# Create your models here.
+from parser import LUCIDS
+from parser import load_lucids
 
 # Alarm Clock Model
 class Alarm(models.Model):
@@ -47,6 +48,7 @@ class Alarm(models.Model):
 
 # Lucid Model - Essentially represents
 class Lucid(models.Model):
+    nickname = models.CharField(max_length = 64)
     identification = models.IntegerField
     name = models.CharField(max_length = 64)
     # Types represents what "species" is inherited by the Lucids (i.e. )
@@ -58,13 +60,15 @@ class Lucid(models.Model):
     # Index one is the previous, index 2 is the next
     evolution = ArrayField(models.CharField(max_length = 64), size = 2)
    
+    def __init__(self, nickname, identification):
+        self.nickname = nickname
+        Lucid
+
     def __str__(self):
-        return f"This is a {self.name} Lucid!"
+        return f"This is your {self.name} Lucid! Their name is {self.nickname}."
 
-    #def stats(self):
-       # return f"Name: {self.name}\n Description: {self.description}\n Rarity: "
-
-   # def new(identification, name, types, description, spawn_rate, spawn_level)
+    def stats(self):
+        return f"Name: {self.name}\n Description: {self.description}"
 
     #def get_id():
       #  return self.identification
@@ -84,8 +88,8 @@ class UserDatabase(models.Model):
     # The current losing streak the use rhas
     currentLoseStreak = models.IntegerField(default = 0);
     # The lucids array essentially holds all the lucids
-    # The number represents the Lucid ID
-    lucids = ArrayField(models.IntegerField(), size = 25)
+    # The number represents the Lucid's nickname (how they're identified in the program)
+    lucids = ArrayField(models.CharField(), size = 64)
     # Represents the actual alarm clock model
     alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
 
