@@ -62,12 +62,12 @@ class Lucid(models.Model):
     #types = ArrayField(models.CharField(max_length = 64), size = 5)
     types = models.JSONField(default=list)
     description = models.CharField(max_length = 1024)
-    spawn_rate = models.FloatField()
-    spawn_level_offset = models.IntegerField()
+    spawn_rate = models.FloatField(null=True, blank=True)
+    spawn_level_offset = models.IntegerField(null=True, blank=True)
     # Evolution represents the current level of the Lucid in it's "progression path"
     # Index one is the previous, index 2 is the next
     #evolution = ArrayField(models.CharField(max_length = 64), size = 2)
-    evolution = models.JSONField(default=list)
+    evolution = models.JSONField(default=dict)
    
     def __str__(self):
         return f"This is a {self.name} Lucid!"

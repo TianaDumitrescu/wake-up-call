@@ -1,16 +1,23 @@
-from django.shortcuts import render, redirect
-from .models import Alarm
 from datetime import datetime, timedelta
-from django.utils import timezone
-from django.shortcuts import render, redirect
-from .forms import RegisterForm
-from .models import UserDatabase
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.views.decorators.http import require_POST
+from game.models import BattleSession, PlayerProfile
+from game.services.progression import (
+    ALARM_EARLY_NO_EFFECT,
+    ALARM_LATE,
+    ALARM_ON_TIME,
+    apply_alarm_result,
+)
+from .forms import RegisterForm
+from .models import Alarm, UserDatabase
+from django.utils import timezone
 
 @login_required
 def home(request):
     user = request.user
+    profile, _ = PlayerProfile.objects.get_or_create(user=user)
 
     # For the home page, we want to show the user their current alarm (if they have one) and whether it is due or not.
     alarm = Alarm.objects.filter(user=user).first()
@@ -23,21 +30,38 @@ def home(request):
     return render(request, "main/home.html", {
         "alarm": alarm,
         "is_due": is_due,
-        "user": user
+        "user": user,
+        "game_profile": profile,
+        "has_active_battle": BattleSession.objects.filter(owner=user).exists(),
     })
 
+@login_required
+@require_POST
 def delete_alarm(request):
-    # User should only have one alarm, so we can just get the first one and delete it.
     alarm = Alarm.objects.filter(user=request.user).first()
-
-    # If there is an alarm, delete it. If there isn't, do nothing and just redirect to the home page.
     if alarm:
+        now = timezone.localtime()
+        on_time_window_start = alarm.time - timedelta(minutes=10)
+
+        if now < on_time_window_start:
+            outcome = ALARM_EARLY_NO_EFFECT
+        elif now <= alarm.time:
+            outcome = ALARM_ON_TIME
+        else:
+            outcome = ALARM_LATE
+
+        apply_alarm_result(request.user, outcome)
         alarm.delete()
 
     return redirect("home")
 
+@login_required
+@require_POST
 def create_alarm(request):
-    alarm_time_str = request.POST["time"]
+    alarm_time_str = request.POST.get("time")
+    if not alarm_time_str:
+        return redirect("home")
+
     alarm_time = datetime.strptime(alarm_time_str, "%H:%M").time()
     now = timezone.localtime()
 
@@ -59,10 +83,12 @@ def create_alarm(request):
 
     alarm.time = alarm_datetime
     alarm.completed = False
+    alarm.due_determiner = False
     alarm.save()
 
     return redirect("home")
 
+@login_required
 def account(request):
     return render(request, 'main/account.html')
 
