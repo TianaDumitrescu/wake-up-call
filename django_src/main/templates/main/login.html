@@ -13,19 +13,23 @@
 
     <header>
         <h1 class="title">Lucid Garden</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'account' %}">Account</a></li>
-            </ul>
-        </nav>
     </header>
 
-    <form method="POST">
+    <form method="POST" class="login-form">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+        <div class="form-row">
+            <p>Username: </p>
+            <input type="text" name="username" placeholder="Username" />
+        </div>
+        <div class="form-row">
+            <p>Password: </p>
+            <input type="password" name="password" placeholder="Password" />
+        </div>
         <button type="submit">Login</button>
+        <button type="button"><a href="{% url 'register' %}">Create Account</a></button>
     </form>
 
     {% if error %}

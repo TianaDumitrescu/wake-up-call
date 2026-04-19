@@ -10,11 +10,12 @@
 </head>
 <body>
     <header>
-        <h1 class="title">Lucid Garden {{ user.username }}</h1>
+        <h1 class="title">Lucid Garden</h1>
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'account' %}">Account</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -57,7 +58,7 @@
         </div>
 
         <div class="content-container">
-            <h2 class="content-info">Words here</h2>
+            <h2 class="content-info">Welcome {{ user.username }}!</h2>
             <div id="main-results">
 
             </div>

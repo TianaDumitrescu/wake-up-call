@@ -21,10 +21,14 @@
         </nav>
     </header>
 
-    <form method="POST">
+    <form method="POST" class="register-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Register</button>
+        <div class="button-row">
+            <button type="submit">Register</button>
+            <button type="button"><a href="{% url 'login' %}">Back to Login</a></button>
+        </div>
+        
     </form>
 
 

@@ -236,3 +236,56 @@ button:hover {
 .due {
     color: red;
 }
+
+.login-form {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+
+    border: 2px solid #e297d2;
+    border-radius: 10px;
+    text-align: center; 
+}
+
+.register-form {
+    width: 700px;
+    padding: 20px;
+    margin: 100px auto;
+    border: 2px solid #e297d2;
+    border-radius: 10px;
+}
+
+.register-form input {
+    background: #b29aff15;
+    border: 1px solid #e297d2;
+    color: #fdd1e9;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.button-row {
+    text-align: center;
+}
+
+.login-form input {
+    background: #b29aff15;
+    border: 1px solid #e297d2;
+    color: #fdd1e9;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.login-form a, .register-form a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: normal;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px auto;
+}
