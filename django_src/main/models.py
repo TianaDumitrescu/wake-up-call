@@ -1,11 +1,21 @@
 import json
 import math
+
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.utils import timezone
+from parser import LUCIDS
+from parser import Lucid
+from parser import load_lucids
 
-# Create your models here.
+def create_lucid(unique_id, nickname, species_id):
+    species_base = LUCIDS.get(species_id)
+
+    if species_base is None:
+        raise ValueError("This species hasn't been initialized.")
+
+    return Lucid.objects.create(unique_id = unique_id, nickname = nickname, species_id=species_id)
 
 # Alarm Clock Model
 class Alarm(models.Model):
@@ -56,33 +66,55 @@ class Alarm(models.Model):
 
 # Lucid Model - Essentially represents
 class Lucid(models.Model):
-    identification = models.IntegerField()
-    name = models.CharField(max_length = 64)
-    # Types represents what "species" is inherited by the Lucids (i.e. )
-    #types = ArrayField(models.CharField(max_length = 64), size = 5)
-    types = models.JSONField(default=list)
-    description = models.CharField(max_length = 1024)
-    spawn_rate = models.FloatField(null=True, blank=True)
-    spawn_level_offset = models.IntegerField(null=True, blank=True)
-    # Evolution represents the current level of the Lucid in it's "progression path"
-    # Index one is the previous, index 2 is the next
-    #evolution = ArrayField(models.CharField(max_length = 64), size = 2)
-    evolution = models.JSONField(default=dict)
+    unique_id = models.IntegerField()
+    nickname = models.CharField(max_length = 64)
+    species_id = models.IntegerField()
    
     def __str__(self):
-        return f"This is a {self.name} Lucid!"
+        return f"This is your {self.get_species_name()} Lucid! Their name is {self.nickname}."
 
-    #def stats(self):
-       # return f"Name: {self.name}\n Description: {self.description}\n Rarity: "
+    def stats(self):
+        return f"Name: {self.get_species_name()}\n Description: {self.get_description()}"
 
-   # def new(identification, name, types, description, spawn_rate, spawn_level)
+    def get_species(self):
+        load_lucids()
+        lucid = LUCIDS.get(self.species_id)
+        return lucid
 
-    #def get_id():
-      #  return self.identification
+    def get_unique_id(self):
+        return self.unique_id
 
-    #def get_name():
-   #     return 
+    def get_nickname(self):
+        return self.nickname
 
+    def set_nickname(self, nickname):
+        self.nickname = nickname
+    
+    def get_species_name(self):
+       species = self.get_species()
+       return species.get_name() if species else ""
+
+    # Types represents what "species" is inherited by the Lucids (i.e. )
+    def get_types(self):
+       species = self.get_species()
+       return species.get_types() if species else []
+  
+    def get_description(self):
+       species = self.get_species()
+       return species.get_description() if species else ""
+
+    def get_spawn_rate(self):
+       species = self.get_species()
+       return species.get_spawn_rate() if species else -1
+       
+    def get_spawn_level_offset(self):
+       species = self.get_species()
+       return species.get_spawn_level_offset() if species else -1
+
+    # Evolution represents the current level of the Lucid in it's "progression path"
+    def get_evolution(self):
+       species = self.get_species()
+       return species.get_evolution() if species else []
 
 # User Database Model - Each user will officially have one
 class UserDatabase(models.Model):
@@ -98,9 +130,8 @@ class UserDatabase(models.Model):
     # The number represents the Lucid ID
     #lucids = ArrayField(models.IntegerField(), size = 25)
     lucids = models.JSONField(default=list)
-    
-    # # Represents the actual alarm clock model
-    # alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
+    # Represents the actual alarm clock model
+    alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
 
     # String representing the user
     def __str__(self):
