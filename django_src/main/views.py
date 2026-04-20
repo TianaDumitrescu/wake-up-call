@@ -27,10 +27,17 @@ def home(request):
     if alarm:
         is_due = alarm.is_due()
 
+    # Make name the given name, if not the username
+    current_user = UserDatabase.objects.get(user=request.user)
+    name = current_user.user.first_name
+    if name is "":
+        name = current_user.user.username
+
     return render(request, "main/home.html", {
         "alarm": alarm,
         "is_due": is_due,
         "user": user,
+        "name": name,
         "game_profile": profile,
         "has_active_battle": BattleSession.objects.filter(owner=user).exists(),
     })
@@ -142,6 +149,7 @@ def leaderboard(request):
         profile = PlayerProfile.objects.get(user=user_obj.user)
 
         leaderboard_data.append({
+            "name": user_obj.user.first_name,
             "username": user_obj.user.username,
             "total_points": user_obj.totalPoints,
             "alarm_streak": profile.alarm_streak if profile else 0,
