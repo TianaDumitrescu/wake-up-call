@@ -168,13 +168,14 @@ class UserDatabase(models.Model):
     # The number represents the Lucid ID
     #lucids = ArrayField(models.IntegerField(), size = 25)
     lucids = models.JSONField(default=list)
+    # The days since password was last changed
+    password_last_changed = models.DateTimeField(default=timezone.now)
     # Represents the actual alarm clock model
     alarm = models.ForeignKey(Alarm, on_delete = models.SET_NULL, null = True, blank = True)
 
     # String representing the user
     def __str__(self):
         return f"Welcome {self.user.username}!"
-
 
     # Getter for the user
     def get_user(self):
@@ -201,7 +202,7 @@ class UserDatabase(models.Model):
         else:
             self.totalPoints -= spending
             return self.totalPoints
-            
+
     # # Setter for the alarm
     # def set_alarm(self, alarm):
     #     self.alarm = alarm
