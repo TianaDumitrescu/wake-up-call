@@ -17,6 +17,7 @@
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'account' %}">Account</a></li>
+                <li><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
             </ul>
         </nav>
     </header>
@@ -24,8 +25,9 @@
     <div class="account-container">
         <img src="{% static 'main/images/profile.jpg' %}" class="profile-pic">
         <h2>Profile</h2>
-        <p>Username: </p>
-        <p>Email: </p>
+        <p>Name: {{ user_name}}</p>
+        <p>Username: {{ user_username}}</p>
+        <p>Email: {{ user_email}}</p>
 
         <button>Edit Profile</button>
         <button>Logout</button>

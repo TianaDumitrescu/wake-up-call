@@ -90,7 +90,14 @@ def create_alarm(request):
 
 @login_required
 def account(request):
-    return render(request, 'main/account.html')
+    current_user = UserDatabase.objects.get(user=request.user)
+    
+    name = current_user.user.first_name
+    username = current_user.user.username
+    email = current_user.user.email
+
+    return render(request, 'main/account.html', {"user_name": name, "user_username": username, "user_email": email})
+
 
 def register(request):
     if request.method == "POST":
@@ -125,3 +132,26 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+@login_required
+def leaderboard(request):
+    user_database = UserDatabase.objects.select_related("user").all()
+
+    leaderboard_data = []
+    for user_obj in user_database:
+        profile = PlayerProfile.objects.get(user=user_obj.user)
+
+        leaderboard_data.append({
+            "username": user_obj.user.username,
+            "total_points": user_obj.totalPoints,
+            "alarm_streak": profile.alarm_streak if profile else 0,
+        })
+
+    leaderboard_data.sort(
+        key=lambda x: (x["total_points"], x["alarm_streak"]),
+        reverse=True,
+    )
+
+    return render(request, "main/leaderboard.html", {
+        "leaderboard": leaderboard_data,
+    })
