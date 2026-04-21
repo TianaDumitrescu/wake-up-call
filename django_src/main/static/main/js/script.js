@@ -715,8 +715,8 @@ loadStarterData();
 
 const djangoMessages = document.querySelectorAll(".django-message");
 
-// Loops through any messages that were sent from the Django backend (like error messages for trying to create an alarm within 5 hours of the current time) 
-// and shows them to the user in an alert box
-for (let i = 0; i < djangoMessages.length; i++) {
-    alert(djangoMessages[i].textContent);
-}
+// // Loops through any messages that were sent from the Django backend (like error messages for trying to create an alarm within 5 hours of the current time) 
+// // and shows them to the user in an alert box
+// for (let i = 0; i < djangoMessages.length; i++) {
+//     alert(djangoMessages[i].textContent);
+// }
