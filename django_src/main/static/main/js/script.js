@@ -116,7 +116,7 @@ function showStarterOptions(options) {
         const lucid = options[i];
         html += `
             <div class="lucid-div">
-                <img src="${getLucidImage(lucid.species_id)}" alt="${lucid.name}" width="100">
+                <img src="${getLucidImage(lucid.id)}" alt="${lucid.name}" width="100">
                 <div class="lucid-info">
                     <p class="lucid-name"><strong>${lucid.name}</strong></p>
                     <p>Type: ${lucid.type.join(", ")}</p>
