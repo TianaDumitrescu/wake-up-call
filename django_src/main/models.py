@@ -187,20 +187,24 @@ class UserDatabase(models.Model):
         self.totalPoints += int(self.currentWinStreak**2 + 10)
         self.currentWinStreak += 1
         self.currentLoseStreak = 0
-
+        self.save(update_fields=["totalPoints", "currentWinStreak", "currentLoseStreak"])
+    
     # We use a quadratic function again to allow for more points
     # to be taken during higher lose streaks.
     def subtract_points(self):
         self.totalPoints -= int(self.currentLoseStreak**2 + 10)
         self.currentLoseStreak += 1
         self.currentWinStreak = 0
+        self.save(update_fields=["totalPoints", "currentWinStreak", "currentLoseStreak"])
 
     # Returns -1 if too expensive, and the amount remaining otherwise.
     def spend_points(self, spending):
         if (spending > self.totalPoints):
+            self.save(update_fields=["totalPoints"])
             return -1
         else:
             self.totalPoints -= spending
+            self.save(update_fields=["totalPoints"])
             return self.totalPoints
 
     # # Setter for the alarm

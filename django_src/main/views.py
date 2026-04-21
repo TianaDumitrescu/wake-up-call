@@ -165,17 +165,18 @@ def leaderboard(request):
 
     leaderboard_data = []
     for user_obj in user_database:
-        profile = PlayerProfile.objects.get(user=user_obj.user)
+        profile, _ = PlayerProfile.objects.get_or_create(user=user_obj.user)
 
         leaderboard_data.append({
             "name": user_obj.user.first_name,
             "username": user_obj.user.username,
             "total_points": user_obj.totalPoints,
-            "alarm_streak": profile.alarm_streak if profile else 0,
+            "alarm_streak": profile.alarm_streak,
+            "battle_win_streak": profile.battleWinStreak,
         })
 
     leaderboard_data.sort(
-        key=lambda x: (x["total_points"], x["alarm_streak"]),
+        key=lambda x: (x["total_points"], x["alarm_streak"], x["battle_win_streak"]),
         reverse=True,
     )
 

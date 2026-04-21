@@ -67,6 +67,7 @@
                     <th>Username</th>
                     <th>Total Points</th>
                     <th>Alarm Streak</th>
+                    <th>Battle Win Streak</th>
                 </tr>
 
                 {% for user in leaderboard %}
@@ -76,10 +77,11 @@
                     <td>{{ user.username }}</td>
                     <td>{{ user.total_points }}</td>
                     <td>{{ user.alarm_streak }}</td>
+                    <td>{{ user.battle_win_streak }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5">No leaderboard data available.</td>
+                    <td colspan="6">No leaderboard data available.</td>
                 </tr>
                 {% endfor %}
             </table>
